@@ -24,7 +24,7 @@ Let's start with the `index.html` file since this is the file that gets loaded f
 We don't have to understand everything in this file, but a few lines are worth highlighting:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/p5@2.3.1/lib/p5.min.js"></script>
 <script src="sketch.js"></script>
 ```
 
@@ -32,7 +32,7 @@ These two lines load the JavaScript code used by our project. The first line loa
 
 The second line loads our `sketch.js` JavaScript file from the same directory as our `index.html` file.
 
-Before we look at the JavaScrip file, a few more lines of `html`:
+Before we look at the JavaScript file, a few more lines of `html`:
 
 ```html
 <body>
