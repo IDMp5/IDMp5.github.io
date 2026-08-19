@@ -2,10 +2,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs/loader.min.js"></script>
 
 <script>
-  // 2. Configure Monaco to load from the CDN
   require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs' }});
 
-  // 3. Web Worker workaround for GitHub Pages cross-origin policies
   window.MonacoEnvironment = {
     getWorkerUrl: function(workerId, label) {
       return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
@@ -15,61 +13,95 @@
     }
   };
 
-  // 4. Initialize the editors
   require(['vs/editor/editor.main'], function() {
-    // Find all markdown code blocks tagged with 'language-p5'
     const codeBlocks = document.querySelectorAll('pre code.language-p5');
 
     codeBlocks.forEach((block) => {
       const initialCode = block.innerText;
       const preNode = block.parentNode;
 
-      // Create a container for the split view
+      // 1. Create a main wrapper to hold both the toolbar and the editor/preview
+      const wrapper = document.createElement('div');
+      wrapper.style.marginBottom = '20px';
+      wrapper.style.border = '1px solid #ddd';
+      wrapper.style.borderRadius = '6px';
+      wrapper.style.overflow = 'hidden';
+
+      // 2. Create the Toolbar
+      const toolbar = document.createElement('div');
+      toolbar.style.backgroundColor = '#f3f3f3';
+      toolbar.style.padding = '8px 12px';
+      toolbar.style.borderBottom = '1px solid #ddd';
+      toolbar.style.display = 'flex';
+      toolbar.style.gap = '8px';
+
+      // Create Start Button
+      const startBtn = document.createElement('button');
+      startBtn.innerText = '▶ Start';
+      startBtn.style.cursor = 'pointer';
+      startBtn.style.padding = '4px 12px';
+      startBtn.style.backgroundColor = '#4CAF50';
+      startBtn.style.color = 'white';
+      startBtn.style.border = 'none';
+      startBtn.style.borderRadius = '4px';
+
+      // Create Stop Button
+      const stopBtn = document.createElement('button');
+      stopBtn.innerText = '■ Stop';
+      stopBtn.style.cursor = 'pointer';
+      stopBtn.style.padding = '4px 12px';
+      stopBtn.style.backgroundColor = '#f44336';
+      stopBtn.style.color = 'white';
+      stopBtn.style.border = 'none';
+      stopBtn.style.borderRadius = '4px';
+
+      toolbar.appendChild(startBtn);
+      toolbar.appendChild(stopBtn);
+
+      // 3. Create the split container
       const container = document.createElement('div');
       container.style.display = 'flex';
       container.style.height = '400px';
-      container.style.marginBottom = '20px';
-      container.style.border = '1px solid #ddd';
-      container.style.borderRadius = '6px';
-      container.style.overflow = 'hidden';
 
-      // Create the editor side
       const editorDiv = document.createElement('div');
       editorDiv.style.flex = '1';
       editorDiv.style.width = '50%';
       
-      // Create the live preview side
       const previewIframe = document.createElement('iframe');
       previewIframe.style.flex = '1';
       previewIframe.style.width = '50%';
       previewIframe.style.border = 'none';
       previewIframe.style.borderLeft = '1px solid #ddd';
+      // Set an initially empty state for the iframe
+      previewIframe.srcdoc = "<html><body style='background:#f9f9f9;'></body></html>";
 
       container.appendChild(editorDiv);
       container.appendChild(previewIframe);
 
-      // Replace the static Markdown block with our new interactive container
-      preNode.parentNode.replaceChild(container, preNode);
+      // Assemble everything
+      wrapper.appendChild(toolbar);
+      wrapper.appendChild(container);
+
+      // Replace the Markdown block with our wrapper
+      preNode.parentNode.replaceChild(wrapper, preNode);
 
       // Mount Monaco
       const editor = monaco.editor.create(editorDiv, {
         value: initialCode,
         language: 'javascript',
-        theme: 'vs-light', // or 'vs-dark'
+        theme: 'vs-light',
         minimap: { enabled: false },
-        automaticLayout: true // responsive resizing
+        automaticLayout: true 
       });
 
-      // Function to bundle the code and run it in the iframe
-      function updatePreview() {
+      // 4. Function to run the sketch
+      function runSketch() {
         const code = editor.getValue();
-        
-        // This HTML injects the p5 library and your custom code into the iframe
         const html = `
           <!DOCTYPE html>
           <html>
             <head>
-              <script src="https://cdn.jsdelivr.net/npm/p5@2/lib/p5.min.js"><\/script>
+                <script src="https://cdn.jsdelivr.net/npm/p5@2/lib/p5.min.js"><\/script>
               <style>
                 body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; background: #f9f9f9;}
               </style>
@@ -82,15 +114,17 @@
         previewIframe.srcdoc = html;
       }
 
-      // Run the sketch on load
-      updatePreview();
-
-      // Update the sketch automagically when the user types (with a 250ms delay)
-      let timeout;
-      editor.onDidChangeModelContent(() => {
-        clearTimeout(timeout);
-        timeout = setTimeout(updatePreview, 250);
+      // 5. Wire up the buttons
+      startBtn.addEventListener('click', runSketch);
+      
+      stopBtn.addEventListener('click', () => {
+        // Overwrite the iframe with an empty page to kill the p5.js loop
+        previewIframe.srcdoc = "<html><body style='background:#f9f9f9;'></body></html>";
       });
+
+      // Optional: Automatically run the sketch once when the page first loads.
+      // Remove this line if you want it to be blank until the user clicks Start.
+      runSketch();
     });
   });
-</script>
+</script> 
