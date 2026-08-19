@@ -455,75 +455,6 @@ function draw() {
 }
 ```
 
-We can explore the equivalencies between all of these representations in the sketch below.
-
-The sliders can be used to select values for the $$3$$ `RGB` channels of the background color. The `RGB` and hex representations of this color are then written out, and the closest of the $$140$$ html colors is displayed in a rectangle.
-
-```p5
-let redSlide;
-let greenSlide;
-let blueSlide;
-
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noLoop();
-  textSize(20);
-
-  redSlide = createSlider(0, 255, 220);
-  redSlide.position(20, 20);
-  redSlide.size(width / 2);
-
-  greenSlide = createSlider(0, 255, 20);
-  greenSlide.position(20, 70);
-  greenSlide.size(width / 2);
-
-  blueSlide = createSlider(0, 255, 120);
-  blueSlide.position(20, 120);
-  blueSlide.size(width / 2);
-}
-
-function draw() {
-  const redVal = redSlide.value();
-  const greenVal = greenSlide.value();
-  const blueVal = blueSlide.value();
-
-  const avgVal = (redVal + greenVal + blueVal) / 3;
-
-  const redHex = redVal.toString(16).toUpperCase();
-  const blueHex = greenVal.toString(16).toUpperCase();
-  const greenHex = blueVal.toString(16).toUpperCase();
-
-  HTMLRGB.sort(distFromRgb(redVal, greenVal, blueVal));
-  const closestName = HTMLRGB[0].name;
-  const closestRGB = HTMLRGB[0].rgb;
-  const closestHex = HTMLRGB[0].hex;
-
-  background(redVal, greenVal, blueVal);
-
-  fill(avgVal > 128 ? 0 : 255);
-
-  text(`red`, 20, 20);
-  text(`green`, 20, 70);
-  text(`blue`, 20, 120);
-
-  text(`RGB: ${redVal}, ${greenVal}, ${blueVal}`, 20, 190);
-  text(`HEX: #${redHex}${greenHex}${blueHex}`, 20, 210);
-
-  text(`CLOSEST HTML COLOR`, 20, 270);
-  text(`${closestName}: (${closestRGB}) ${closestHex}`, 20, 290);
-
-  fill(`${closestHex}`);
-  rect(20, 300, width / 4, width / 8);
-}
-
-function mouseReleased() {
-  redraw();
-}
-function mouseDragged() {
-  redraw();
-}
-```
-
 ### Color Modes
 
 In addition to the default `RGB` color mode, p5.js also allows us to describe colors using the `HSB` color mode.
@@ -538,75 +469,44 @@ After that, all of the color commands like `background()`, `fill()` and `stroke(
 
 In `HSB` mode the Hue value has a range from $$0$$ to $$359$$, and Saturation and Brightness go from $$0$$ to $$100$$. The unit for Saturation and Brightness is $$\%$$, where the Hue value is represented in degrees. This means that hue values wrap around their range, and a hue value of $$359$$ is actually right next to the hue value of $$0$$.
 
-This sketch is very similar to the previous one, but now the $$3$$ sliders control the Hue, Saturation and Brightness values for our background color.
+This sketch demonstrates how you can describe the color red in several different ways
 
 ```p5
-let hSlide;
-let sSlide;
-let bSlide;
+
+// from "Interaction of Color" by Josef Albers
+/*
+ If one says "Red" (the name of a color)
+ and there are 50 people listening,
+ it can be expected that there will be 50 reds in their minds
+ And one can be sure that all these reds will be very different
+*/
+
+// In a computer we are faced with a different problem than the above.
+// we have a discrete 'red' that can be referred to in
+// a number of different ways- 
+// rgb values, hex values, as a hue, or by the HTML color name)
+// but all monitors will display that red differently
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noLoop();
+  createCanvas(400, 400);
+  // RGB value for 'red'
+  fill(255,0,0);
+  rect(0,0,199,199);
+
+  // HTML 'red'
+  fill('red');  
+  rect(200,0,399,199);
+  
+  // HEX value for 'red'
+  fill('#ff0000');
+  rect(0,200,199,399);
+  
+  // HSB value for 'red'
   colorMode(HSB);
-  textSize(20);
-
-  hSlide = createSlider(0, 360, 330);
-  hSlide.position(20, 20);
-  hSlide.size(width / 2);
-
-  sSlide = createSlider(0, 100, 91);
-  sSlide.position(20, 70);
-  sSlide.size(width / 2);
-
-  bSlide = createSlider(0, 100, 86);
-  bSlide.position(20, 120);
-  bSlide.size(width / 2);
+  fill(0,100,100);
+  rect(200,200,399,399);
 }
 
-function draw() {
-  const hVal = hSlide.value();
-  const sVal = sSlide.value();
-  const bVal = bSlide.value();
-
-  const rgb = HSVtoRGB(hVal, sVal, bVal);
-  const redVal = rgb[0];
-  const greenVal = rgb[1];
-  const blueVal = rgb[2];
-
-  const redHex = redVal.toString(16).toUpperCase();
-  const blueHex = greenVal.toString(16).toUpperCase();
-  const greenHex = blueVal.toString(16).toUpperCase();
-
-  HTMLRGB.sort(distFromRgb(redVal, greenVal, blueVal));
-  const closestName = HTMLRGB[0].name;
-  const closestRGB = HTMLRGB[0].rgb;
-  const closestHex = HTMLRGB[0].hex;
-
-  background(hVal, sVal, bVal);
-
-  fill(0, 0, bVal > 50 ? 0 : 100);
-
-  text(`hue`, 20, 20);
-  text(`saturation`, 20, 70);
-  text(`brightness`, 20, 120);
-
-  text(`RGB: ${redVal}, ${greenVal}, ${blueVal}`, 20, 190);
-  text(`HEX: #${redHex}${greenHex}${blueHex}`, 20, 210);
-
-  text(`CLOSEST HTML COLOR`, 20, 270);
-  text(`${closestName}: (${closestRGB}) ${closestHex}`, 20, 290);
-
-  fill(`${closestHex}`);
-  rect(20, 300, width / 4, width / 8);
-}
-
-function mouseReleased() {
-  redraw();
-}
-function mouseDragged() {
-  redraw();
-}
 
 ```
 
