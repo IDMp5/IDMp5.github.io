@@ -3,7 +3,7 @@ title: Intro to p5.js
 ---
 Now that we've seen how to [setup a p5.js project](../p5-setup/) on our computer, let's take a closer look at how p5.js works and how we can start writing code for our projects.
 
-[THIS](https://github.com/IDMNYU/p5-fundamentals/blob/main/_pages/p5js-template/sketch.js) is a bare `sketch.js` file we can start with:
+[THIS](https://github.com/IDMp5/IDMp5.github.io/blob/main/_pages/p5js-template/sketch.js) is a bare `sketch.js` file we can start with:
 
 ```js
 function setup() {
@@ -20,7 +20,7 @@ function draw() {
 
 ## Setup & Draw
 
-As we mentioned previously, our project code, or *sketch*, is divided into two main sections, or *functions*, a `setup()` function and a `draw()` function.
+As mentioned previously, our project code, or *sketch*, is divided into two main sections, or *functions*, a `setup()` function and a `draw()` function.
 
 We specify what each of these functions will do by adding code inside their curly braces (`{` `}`).
 
