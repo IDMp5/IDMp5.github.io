@@ -460,8 +460,6 @@ We can explore the equivalencies between all of these representations in the ske
 The sliders can be used to select values for the $$3$$ `RGB` channels of the background color. The `RGB` and hex representations of this color are then written out, and the closest of the $$140$$ html colors is displayed in a rectangle.
 
 ```p5
-// @include "/HTMLRGB.js"
-
 let redSlide;
 let greenSlide;
 let blueSlide;
