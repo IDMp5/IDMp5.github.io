@@ -477,15 +477,19 @@ This sketch demonstrates how you can describe the color red in several different
 /*
  If one says "Red" (the name of a color)
  and there are 50 people listening,
- it can be expected that there will be 50 reds in their minds
- And one can be sure that all these reds will be very different
+ it can be expected that there will be 
+ 50 reds in their minds
+ And one can be sure that all these reds 
+ will be very different
 */
 
-// In a computer we are faced with a different problem than the above.
-// we have a discrete 'red' that can be referred to in
-// a number of different ways- 
-// rgb values, hex values, as a hue, or by the HTML color name)
-// but all monitors will display that red differently
+// In a computer we are faced with a 
+// different problem than the above.
+// we have a discrete 'red' that can be 
+// referred to in a number of different ways- 
+// rgb values, hex values, as a hue, 
+// or by the HTML color name
+// but all screens display that red differently
 
 function setup() {
   createCanvas(400, 400);
