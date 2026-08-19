@@ -98,7 +98,23 @@ rect(10, 100, 80, 40);
 ellipse(200, 300, 100);
 ```
 
-{% include p5-editor.html id="TyHTKL3db" %}
+```p5
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noLoop();
+}
+
+function draw() {
+  background(220, 20, 120);
+
+  rect(10, 10, 80);
+  ellipse(200, 200, 100);
+  
+  rect(10, 100, 80, 40);
+  ellipse(300, 200, 100, 150);
+}
+
+```
 
 We can play with the coordinates and sizes on the sketch above ☝️ to gain some familiarity and intuition about the coordinate system and these two functions.
 
@@ -109,7 +125,26 @@ rect(210, 300, 80);
 ellipse(310, 300, 80);
 ```
 
-{% include p5-editor.html id="2iZYx1nuv" %}
+```p5
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noLoop();
+}
+
+function draw() {
+  background(220, 20, 120);
+
+  rect(10, 10, 80);
+  rect(110, 10, 80);
+
+  ellipse(110, 200, 80);
+  ellipse(210, 200, 80);
+
+  rect(210, 300, 80);
+  ellipse(310, 300, 80);
+}
+
+```
 
 # 🤔
 
@@ -122,7 +157,25 @@ rect(210, 300, 80);
 ellipse(350, 340, 80);
 ```
 
-{% include p5-editor.html id="KiSnvsQhf" %}
+```p5
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noLoop();
+}
+
+function draw() {
+  background(220, 20, 120);
+
+  rect(10, 10, 80);
+  rect(110, 10, 80);
+
+  ellipse(110, 200, 80);
+  ellipse(210, 200, 80);
+
+  rect(210, 300, 80);
+  ellipse(350, 340, 80);
+}
+```
 
 We can also use the p5.js functions [`rectMode()`](https://p5js.org/reference/#/p5/rectMode) and [`ellipseMode()`](https://p5js.org/reference/#/p5/ellipseMode) to change how rectangles and ellipses are drawn.
 
@@ -136,7 +189,23 @@ To draw ellipses by specifying their top-left corner, we can use:
 ellipseMode(CORNER);
 ```
 
-{% include p5-editor.html id="3frUheLXu" %}
+```p5
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noLoop();
+}
+
+function draw() {
+  background(220, 20, 120);
+
+  rect(10, 10, 80);
+  rect(110, 10, 80);
+
+  ellipseMode(CORNER);
+  ellipse(210, 10, 80);
+  ellipse(310, 10, 80);
+}
+```
 
 One thing to note is that once we call `rectMode()` or `ellipseMode()`, every shape that we draw afterwards will be drawn using the mode specified. To undo this, we can call:
 
@@ -145,17 +214,87 @@ rectMode(CORNER);
 ellipseMode(CENTER);
 ```
 
-{% include p5-editor.html id="WTddwWpvG" %}
+```p5
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noLoop();
+}
+
+function draw() {
+  background(220, 20, 120);
+
+  rect(10, 10, 80);
+  rect(110, 10, 80);
+
+  ellipseMode(CORNER);
+  ellipse(210, 10, 80);
+  ellipse(310, 10, 80);
+
+  rectMode(CENTER);
+  ellipseMode(CENTER);
+  rect(width / 2, 200, 80);
+  rect(width / 2, 300, 80);
+  ellipse(width / 2, 400, 80);
+  ellipse(width / 2, 500, 80);
+}
+```
 
 Or, better yet, we can just pick one mode in the beginning, whichever we think will be most useful for our sketch, and keep it throughout the whole sketch.
 
 Let's say we want to draw a grid of squares, rectangles and circles. In this situation, where we are starting at the top-left corner of our canvas and drawing to the right and to the bottom, it might be easier to do math for the locations of the top-left corners of our shapes. Since we'll keep the same mode throughout the whole sketch, we can just put `ellipseMode(CORNER)` inside our `setup()` function.
 
-{% include p5-editor.html id="NL-wqSSL1" %}
+```p5
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noLoop();
+  ellipseMode(CORNER);
+}
+
+function draw() {
+  background(220, 20, 120);
+
+  rect(10, 10, 80);
+  rect(110, 10, 80);  
+  ellipse(210, 10, 80);
+  ellipse(310, 10, 80);
+
+  ellipse(10, 110, 80);
+  ellipse(110, 110, 80);
+  rect(210, 110, 180, 80);
+  
+  rect(10, 210, 80, 180);
+  rect(110, 210, 80);
+  rect(210, 210, 80);
+  ellipse(310, 210, 80);
+
+  ellipse(110, 310, 80);
+  ellipse(210, 310, 80);
+  rect(310, 310, 80);
+}
+```
 
 But, on the other hand, if we are drawing concentric shapes, or placing them relative to the center of the canvas, we might find it easier to use `rectMode(CENTER)` throughout our whole sketch:
 
-{% include p5-editor.html id="hmROElyh4" %}
+```p5
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noLoop();
+  rectMode(CENTER);
+}
+
+function draw() {
+  background(220, 20, 120);
+
+  rect(80, 80, 130);
+  ellipse(80, 80, 140);
+  ellipse(80, 80, 70);
+
+  rect(width / 2, height / 2, 80, 160);
+  ellipse(width / 2, height / 2, 40);
+  ellipse(width / 2 - 80, height / 2, 80);
+  ellipse(width / 2 + 80, height / 2, 80);
+}
+```
 
 ## More Shapes
 
@@ -165,7 +304,22 @@ The [`quad()`](https://p5js.org/reference/#/p5/quad) function can be used to dra
 
 Similarly, the [`triangle()`](https://p5js.org/reference/#/p5/triangle) function draws a triangle from $$3$$ pairs of `x` and `y` coordinates.
 
-{% include p5-editor.html id="rkWRuOQ26" %}
+```p5
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noLoop();
+}
+
+function draw() {
+  background(220, 20, 120);
+
+  rect(10, 10, 140);
+  quad(10, 80, 80, 50, 150, 80, 80, 110);
+
+  ellipse(230, 80, 140);  
+  triangle(230, 10, 170, 115, 290, 115);
+}
+```
 
 The [`arc()`](https://p5js.org/reference/#/p5/arc) function draws partial ellipses, and its first $$4$$ parameters are just like the `ellipse()` parameters for `x` and `y` coordinates, `width` and `height`, but the 5$$^{th}$$ an 6$$^{th}$$ parameters specify the angles of where the arc starts and stops, respectively.
 
@@ -179,7 +333,23 @@ How angles are measured in p5.js and degree/radian equivalents for some common a
 
 So now, we can use this drawing as reference to help us draw some partial ellipses:
 
-{% include p5-editor.html id="12qrmbjku" %}
+```p5
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noLoop();
+}
+
+function draw() {
+  background(220, 20, 120);
+
+  arc(100, 100, 200, 200, PI / 4, -PI / 4);
+
+  arc(200, 100, 120, 120, PI / 6, -PI / 6);
+
+  arc(270, 100, 50, 50, PI / 12, -PI / 12);
+}
+
+```
 
 ## Non-regular and Custom Shapes
 
@@ -189,7 +359,32 @@ First, we call the [`beginShape()`](https://p5js.org/reference/#/p5/beginShape) 
 
 We can call `endShape(CLOSE)` to close our shape without having to replicate the first vertex as the last vertex.
 
-{% include p5-editor.html id="_ewE9wElh" %}
+```p5
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noLoop();
+}
+
+function draw() {
+  background(220, 20, 120);
+
+  beginShape();
+
+  vertex(width / 2 - 50, height / 2 - 50);
+  vertex(width / 2, 10);
+
+  vertex(width / 2 + 50, height / 2 - 50);
+  vertex(width - 10, height / 2);
+
+  vertex(width / 2 + 50, height / 2 + 50);
+  vertex(width / 2, height - 10);
+
+  vertex(width / 2 - 50, height / 2 + 50);
+  vertex(10, height / 2);
+
+  endShape(CLOSE);
+}
+```
 
 ## Colors
 
@@ -209,19 +404,125 @@ Besides the `background()` command, which we've been using to specify the pink c
 
 And, just like the `rectMode()` and `ellipseMode()` commands, once we call `fill()` or `stroke()`, everything drawn afterwards will have the same color.
 
-{% include p5-editor.html id="EgHkkOsUR" %}
+```p5
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noLoop();
+}
+
+function draw() {
+  background(220, 20, 120);
+
+  fill(255, 0, 0);
+  rect(20, 20, 60);
+
+  stroke(255);
+  rect(100, 20, 60);
+
+  fill(0, 0, 255);
+  rect(180, 20, 60);
+
+  fill(255, 0, 255);
+  stroke(0, 255, 0);
+  rect(260, 20, 60);
+}
+```
 
 Colors can also be specified using [html color names](https://www.w3schools.com/tags/ref_colornames.asp), or [hex notation](https://www.w3schools.com/html/html_colors_hex.asp).
 
 Hex notation might be familiar from image-editing software. It contains the exact same information as the `RGB` format, but represented in [hexadecimal notation](https://byjus.com/maths/hexadecimal-number-system/), where each of the $$3$$ channel values between $$0$$ and $$255$$ is represented as a hexadecimal number between `00` and `FF`, where `FF` is the hexadecimal notation for the number $$255$$.
 
-{% include p5-editor.html id="oCr-eh9CB" %}
+```p5
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noLoop();
+}
+
+function draw() {
+  background(220, 20, 120);
+
+  fill(255, 0, 0);
+  rect(20, 20, 60);
+
+  fill("#00ff00");
+  rect(100, 20, 60);
+
+  fill("blue");
+  rect(180, 20, 60);
+  
+  fill("lightpink");
+  rect(260, 20, 60);
+}
+```
 
 We can explore the equivalencies between all of these representations in the sketch below.
 
 The sliders can be used to select values for the $$3$$ `RGB` channels of the background color. The `RGB` and hex representations of this color are then written out, and the closest of the $$140$$ html colors is displayed in a rectangle.
 
-{% include p5-editor.html id="4ycW7yWmV" %}
+```p5
+let redSlide;
+let greenSlide;
+let blueSlide;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noLoop();
+  textSize(20);
+
+  redSlide = createSlider(0, 255, 220);
+  redSlide.position(20, 20);
+  redSlide.size(width / 2);
+
+  greenSlide = createSlider(0, 255, 20);
+  greenSlide.position(20, 70);
+  greenSlide.size(width / 2);
+
+  blueSlide = createSlider(0, 255, 120);
+  blueSlide.position(20, 120);
+  blueSlide.size(width / 2);
+}
+
+function draw() {
+  const redVal = redSlide.value();
+  const greenVal = greenSlide.value();
+  const blueVal = blueSlide.value();
+
+  const avgVal = (redVal + greenVal + blueVal) / 3;
+
+  const redHex = redVal.toString(16).toUpperCase();
+  const blueHex = greenVal.toString(16).toUpperCase();
+  const greenHex = blueVal.toString(16).toUpperCase();
+
+  HTMLRGB.sort(distFromRgb(redVal, greenVal, blueVal));
+  const closestName = HTMLRGB[0].name;
+  const closestRGB = HTMLRGB[0].rgb;
+  const closestHex = HTMLRGB[0].hex;
+
+  background(redVal, greenVal, blueVal);
+
+  fill(avgVal > 128 ? 0 : 255);
+
+  text(`red`, 20, 20);
+  text(`green`, 20, 70);
+  text(`blue`, 20, 120);
+
+  text(`RGB: ${redVal}, ${greenVal}, ${blueVal}`, 20, 190);
+  text(`HEX: #${redHex}${greenHex}${blueHex}`, 20, 210);
+
+  text(`CLOSEST HTML COLOR`, 20, 270);
+  text(`${closestName}: (${closestRGB}) ${closestHex}`, 20, 290);
+
+  fill(`${closestHex}`);
+  rect(20, 300, width / 4, width / 8);
+}
+
+function mouseReleased() {
+  redraw();
+}
+function mouseDragged() {
+  redraw();
+}
+```
 
 ### Color Modes
 
@@ -239,6 +540,74 @@ In `HSB` mode the Hue value has a range from $$0$$ to $$359$$, and Saturation an
 
 This sketch is very similar to the previous one, but now the $$3$$ sliders control the Hue, Saturation and Brightness values for our background color.
 
-{% include p5-editor.html id="b4WQsPPyN" %}
+```p5
+let hSlide;
+let sSlide;
+let bSlide;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noLoop();
+  colorMode(HSB);
+  textSize(20);
+
+  hSlide = createSlider(0, 360, 330);
+  hSlide.position(20, 20);
+  hSlide.size(width / 2);
+
+  sSlide = createSlider(0, 100, 91);
+  sSlide.position(20, 70);
+  sSlide.size(width / 2);
+
+  bSlide = createSlider(0, 100, 86);
+  bSlide.position(20, 120);
+  bSlide.size(width / 2);
+}
+
+function draw() {
+  const hVal = hSlide.value();
+  const sVal = sSlide.value();
+  const bVal = bSlide.value();
+
+  const rgb = HSVtoRGB(hVal, sVal, bVal);
+  const redVal = rgb[0];
+  const greenVal = rgb[1];
+  const blueVal = rgb[2];
+
+  const redHex = redVal.toString(16).toUpperCase();
+  const blueHex = greenVal.toString(16).toUpperCase();
+  const greenHex = blueVal.toString(16).toUpperCase();
+
+  HTMLRGB.sort(distFromRgb(redVal, greenVal, blueVal));
+  const closestName = HTMLRGB[0].name;
+  const closestRGB = HTMLRGB[0].rgb;
+  const closestHex = HTMLRGB[0].hex;
+
+  background(hVal, sVal, bVal);
+
+  fill(0, 0, bVal > 50 ? 0 : 100);
+
+  text(`hue`, 20, 20);
+  text(`saturation`, 20, 70);
+  text(`brightness`, 20, 120);
+
+  text(`RGB: ${redVal}, ${greenVal}, ${blueVal}`, 20, 190);
+  text(`HEX: #${redHex}${greenHex}${blueHex}`, 20, 210);
+
+  text(`CLOSEST HTML COLOR`, 20, 270);
+  text(`${closestName}: (${closestRGB}) ${closestHex}`, 20, 290);
+
+  fill(`${closestHex}`);
+  rect(20, 300, width / 4, width / 8);
+}
+
+function mouseReleased() {
+  redraw();
+}
+function mouseDragged() {
+  redraw();
+}
+
+```
 
 Some people find it easier to interpolate between colors and create color transitions in the `HSB` space because we can go through a wide palette of colors by just varying hue value. Where in `RGB` we always have to account for all $$3$$ channels when creating transitions or interpolating colors.
