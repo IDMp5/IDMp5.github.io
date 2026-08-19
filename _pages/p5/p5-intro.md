@@ -16,7 +16,18 @@ function draw() {
 }
 ```
 
-{% include p5-editor.html id="bvmSu50O6a" %}
+<! -- {% include p5-editor.html id="bvmSu50O6a" %} -->
+
+```p5
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+}
+
+function draw() {
+  background(220, 20, 20);
+  ellipse(120, 120, 50, 50);
+}
+```
 
 ## Setup & Draw
 
