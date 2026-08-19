@@ -33,6 +33,10 @@ Installing extensions on VS Code is easy:
 
 The following extensions are really useful for developing HTML/JavaScript and p5.js projects:
 
+### [p5.js 2.x Project Generator](https://github.com/IrtizaNasar/p5-2.vscode)
+
+An extension that creates standalone projects really quickly, preparing html and javascript files for you
+
 ### [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
 
 This makes it easier for us to start a local web server so we can preview, test and fix our project before uploading it to a public server on the internet.

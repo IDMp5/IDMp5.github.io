@@ -19,7 +19,7 @@ Next, we can open this directory in VSCode and create two empty files inside it:
 
 Let's start with the `index.html` file since this is the file that gets loaded first when we access our project in a browser. This file is responsible for loading a few other files with JavaScript code, and setting up a couple of basic `html` elements where the results of our JavaScript code can be drawn.
 
-[THIS](https://github.com/IDMNYU/p5-fundamentals/blob/main/_pages/p5js-template/index.html) is what a basic p5.js project `index.html` file looks like. We can just copy the contents of this file into the empty `index.html` file in our local directory.
+[THIS](_pages/p5js-template) is what a basic p5.js project `index.html` file looks like. We can just copy the contents of this file into the empty `index.html` file in our local directory.
 
 We don't have to understand everything in this file, but a few lines are worth highlighting:
 

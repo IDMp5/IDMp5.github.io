@@ -31,6 +31,7 @@ permalink: /
   random
   arrays
   strings
+  promise-await
   objects
   advanced-arraying
   classes
