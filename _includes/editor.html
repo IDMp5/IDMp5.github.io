@@ -20,14 +20,14 @@
       const initialCode = block.innerText;
       const preNode = block.parentNode;
 
-      // 1. Create a main wrapper to hold both the toolbar and the editor/preview
+      // 1. Create main wrapper
       const wrapper = document.createElement('div');
       wrapper.style.marginBottom = '20px';
       wrapper.style.border = '1px solid #ddd';
       wrapper.style.borderRadius = '6px';
       wrapper.style.overflow = 'hidden';
 
-      // 2. Create the Toolbar
+      // 2. Create Toolbar
       const toolbar = document.createElement('div');
       toolbar.style.backgroundColor = '#f3f3f3';
       toolbar.style.padding = '8px 12px';
@@ -35,54 +35,60 @@
       toolbar.style.display = 'flex';
       toolbar.style.gap = '8px';
 
-      // Create Start Button
       const startBtn = document.createElement('button');
       startBtn.innerText = '▶ Start';
-      startBtn.style.cursor = 'pointer';
-      startBtn.style.padding = '4px 12px';
-      startBtn.style.backgroundColor = '#4CAF50';
-      startBtn.style.color = 'white';
-      startBtn.style.border = 'none';
-      startBtn.style.borderRadius = '4px';
+      startBtn.style.cssText = 'cursor:pointer; padding:4px 12px; background:#4CAF50; color:white; border:none; border-radius:4px;';
 
-      // Create Stop Button
       const stopBtn = document.createElement('button');
       stopBtn.innerText = '■ Stop';
-      stopBtn.style.cursor = 'pointer';
-      stopBtn.style.padding = '4px 12px';
-      stopBtn.style.backgroundColor = '#f44336';
-      stopBtn.style.color = 'white';
-      stopBtn.style.border = 'none';
-      stopBtn.style.borderRadius = '4px';
+      stopBtn.style.cssText = 'cursor:pointer; padding:4px 12px; background:#f44336; color:white; border:none; border-radius:4px;';
 
       toolbar.appendChild(startBtn);
       toolbar.appendChild(stopBtn);
 
-      // 3. Create the split container
+      // 3. Create Split Container
       const container = document.createElement('div');
       container.style.display = 'flex';
-      container.style.height = '400px';
+      container.style.height = '450px'; // Increased height slightly to fit console
+
+      // 4. Create Left Side (Editor + Console)
+      const leftCol = document.createElement('div');
+      leftCol.style.flex = '1';
+      leftCol.style.width = '50%';
+      leftCol.style.display = 'flex';
+      leftCol.style.flexDirection = 'column';
 
       const editorDiv = document.createElement('div');
-      editorDiv.style.flex = '1';
-      editorDiv.style.width = '50%';
-      
+      editorDiv.style.flex = '1'; // Takes remaining space
+
+      // Create Console Output Window
+      const consoleDiv = document.createElement('div');
+      consoleDiv.style.height = '120px';
+      consoleDiv.style.backgroundColor = '#1e1e1e';
+      consoleDiv.style.color = '#d4d4d4';
+      consoleDiv.style.fontFamily = 'monospace';
+      consoleDiv.style.fontSize = '13px';
+      consoleDiv.style.padding = '8px';
+      consoleDiv.style.overflowY = 'auto';
+      consoleDiv.style.borderTop = '2px solid #333';
+      consoleDiv.innerHTML = '<div style="color:#888;">// Console output...</div>';
+
+      leftCol.appendChild(editorDiv);
+      leftCol.appendChild(consoleDiv);
+
+      // 5. Create Right Side (Live Canvas)
       const previewIframe = document.createElement('iframe');
       previewIframe.style.flex = '1';
       previewIframe.style.width = '50%';
       previewIframe.style.border = 'none';
       previewIframe.style.borderLeft = '1px solid #ddd';
-      // Set an initially empty state for the iframe
       previewIframe.srcdoc = "<html><body style='background:#f9f9f9;'></body></html>";
 
-      container.appendChild(editorDiv);
+      container.appendChild(leftCol);
       container.appendChild(previewIframe);
 
-      // Assemble everything
       wrapper.appendChild(toolbar);
       wrapper.appendChild(container);
-
-      // Replace the Markdown block with our wrapper
       preNode.parentNode.replaceChild(wrapper, preNode);
 
       // Mount Monaco
@@ -94,14 +100,54 @@
         automaticLayout: true 
       });
 
-      // 4. Function to run the sketch
+      // 6. Listen for console messages from THIS specific iframe
+      window.addEventListener('message', (event) => {
+        if (event.source === previewIframe.contentWindow && event.data && event.data.source === 'p5-embed') {
+          const logLine = document.createElement('div');
+          logLine.style.borderBottom = '1px solid #333';
+          logLine.style.padding = '2px 0';
+          logLine.style.wordWrap = 'break-word';
+          logLine.innerText = event.data.args.join(' ');
+          
+          if (event.data.method === 'error') logLine.style.color = '#ff5555'; // Red for errors
+          if (event.data.method === 'warn') logLine.style.color = '#ffb86c';  // Yellow/Orange for warnings
+          
+          consoleDiv.appendChild(logLine);
+          consoleDiv.scrollTop = consoleDiv.scrollHeight; // Auto-scroll to bottom
+        }
+      });
+
+      // 7. Function to bundle and run the sketch
       function runSketch() {
+        // Clear the console on new run
+        consoleDiv.innerHTML = '';
+        
         const code = editor.getValue();
+        
+        // We inject a script into the iframe that hijacks console.log and errors
+        // and sends them out via postMessage to the parent window.
         const html = `
           <!DOCTYPE html>
           <html>
             <head>
-                <script src="https://cdn.jsdelivr.net/npm/p5@2/lib/p5.min.js"><\/script>
+              <script>
+                // Intercept console methods
+                ['log', 'warn', 'error', 'info'].forEach(function(method) {
+                  const original = console[method];
+                  console[method] = function() {
+                    const args = Array.from(arguments).map(a => typeof a === 'object' ? JSON.stringify(a) : String(a));
+                    window.parent.postMessage({ source: 'p5-embed', method: method, args: args }, '*');
+                    original.apply(console, arguments);
+                  };
+                });
+                
+                // Intercept global runtime errors
+                window.onerror = function(msg, url, line) {
+                  window.parent.postMessage({ source: 'p5-embed', method: 'error', args: ['Error: ' + msg] }, '*');
+                  return false;
+                };
+              <\/script>
+              <script src="https://cdn.jsdelivr.net/npm/p5@2/lib/p5.min.js"><\/script>
               <style>
                 body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; background: #f9f9f9;}
               </style>
@@ -114,17 +160,13 @@
         previewIframe.srcdoc = html;
       }
 
-      // 5. Wire up the buttons
       startBtn.addEventListener('click', runSketch);
       
       stopBtn.addEventListener('click', () => {
-        // Overwrite the iframe with an empty page to kill the p5.js loop
         previewIframe.srcdoc = "<html><body style='background:#f9f9f9;'></body></html>";
       });
 
-      // Optional: Automatically run the sketch once when the page first loads.
-      // Remove this line if you want it to be blank until the user clicks Start.
       runSketch();
     });
   });
-</script> 
+</script>

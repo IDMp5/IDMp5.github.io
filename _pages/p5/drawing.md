@@ -16,15 +16,49 @@ The `createCanvas()` command takes two parameters, or, two numbers, that specify
 
 We can see the difference by running the following two sketches:
 
-{% include p5-editor.html id="AHvLeXMJM" %}
+```p5
+function setup() {
+  createCanvas(320, 240);
+  background(220, 20, 120);
+  // DRAW STATIC SHAPES HERE
+}
 
-{% include p5-editor.html id="FJCJwnz7V" %}
+function draw() {
+  // DRAW FRAMES HERE
+}
+
+```
+
+
+```p5
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background(220, 20, 120);
+}
+
+function draw() {
+  
+}
+```
+
+
 
 And, whether our canvas is created with specific pixel dimensions or using `(windowWidth, windowHeight)`, we can always ask p5.js for the exact size of our canvas by accessing the [`width`](https://p5js.org/reference/#/p5/width) and [`height`](https://p5js.org/reference/#/p5/height) *variables*.
 
 (clear any cookie warnings and look at the *Console* section after running the sketch below)
 
-{% include p5-editor.html id="E_GTsCI-4" %}
+```p5
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background(220, 20, 120);
+  print(width, height);
+}
+
+function draw() {
+  
+}
+```
+
 
 ## Coordinate System
 
