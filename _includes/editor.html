@@ -140,22 +140,13 @@
 
       // 7. Function to bundle and run the sketch
       function runSketch() {
-        consoleDiv.innerHTML = ''; // Clear the console
+        // Clear the console on new run
+        consoleDiv.innerHTML = '';
         
         const code = editor.getValue();
         
-        // --- NEW: Parse magic comments for external scripts ---
-        // Looks for lines exactly like: // @include "path.js" or // @include 'path.js'
-        const includeRegex = /^\/\/\s*@include\s+['"]([^'"]+)['"]/gm;
-        let match;
-        let extraScripts = '';
-        
-        // Loop through all matches and build the <script> tags
-        while ((match = includeRegex.exec(code)) !== null) {
-          const scriptUrl = match[1];
-          extraScripts += `<script src="${scriptUrl}"><\/script>\n              `;
-        }
-        
+        // We inject a script into the iframe that hijacks console.log and errors
+        // and sends them out via postMessage to the parent window.
         const html = `
           <!DOCTYPE html>
           <html>
@@ -171,24 +162,18 @@
                   };
                 });
                 
+                // Intercept global runtime errors
                 window.onerror = function(msg, url, line) {
                   window.parent.postMessage({ source: 'p5-embed', method: 'error', args: ['Error: ' + msg] }, '*');
                   return false;
                 };
               <\/script>
-              
-              <!-- 1. Load p5.js first -->
-              <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"><\/script>
-              
-              <!-- 2. Dynamically injected scripts from magic comments -->
-              ${extraScripts}
-
+              <script src="https://cdn.jsdelivr.net/npm/p5@2/lib/p5.min.js"><\/script>
               <style>
                 body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; background: #f9f9f9;}
               </style>
             </head>
             <body>
-              <!-- 3. Finally, run the code from the Monaco editor -->
               <script>${code}<\/script>
             </body>
           </html>
