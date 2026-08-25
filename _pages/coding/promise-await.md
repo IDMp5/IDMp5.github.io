@@ -1,3 +1,7 @@
+---
+title: Promises, async, await
+---
+
 # Promises & async / await
 
 Some of the things we ask our programs to do take time. And not just a little bit of time: downloading a file from the internet can take several seconds. If our program waits for an image, sound or data file, everything halts: animations stop, buttons don't respond, our sketches freeze up. To get around this, we use JavaScript's built-in tools for handling things that take time: **Promises** and **async / await**.
