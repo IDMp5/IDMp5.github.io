@@ -24,8 +24,15 @@ And, whether our canvas is created with specific pixel dimensions or using `(win
 
 (clear any cookie warnings and look at the *Console* section after running the sketch below)
 
-<iframe src="https://editor.p5js.org/shfitz/sketches/M45a9yw5w"></iframe>
 
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/M45a9yw5w"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/M45a9yw5w">
+    open example in new window
+  </a>
+</div>
 
 ## Coordinate System
 
