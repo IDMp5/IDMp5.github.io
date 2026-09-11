@@ -15,31 +15,9 @@ The canvas is the section of our page where we can actually draw things. There's
 The `createCanvas()` command takes two parameters, or, two numbers, that specify a `width` and a `height` for our drawing area. We can always give it specific values in pixels, like: `createCanvas(640, 480)` or `createCanvas(1920, 1080)`, but if we want our canvas to be proportional to our browser window, we can use the special p5.js keywords `windowWidth` and `windowHeight` to make the canvas take up as much space as possible on our page: `createCanvas(windowWidth, windowHeight)`.
 
 We can see the difference by running the following two sketches:
+{% include p5-editor.html id="AHvLeXMJM" %}
+{% include p5-editor.html id="FJCJwnz7V" %}
 
-```p5
-function setup() {
-  createCanvas(320, 240);
-  background(220, 20, 120);
-  // DRAW STATIC SHAPES HERE
-}
-
-function draw() {
-  // DRAW FRAMES HERE
-}
-
-```
-
-
-```p5
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  background(220, 20, 120);
-}
-
-function draw() {
-  
-}
-```
 
 
 
@@ -47,17 +25,7 @@ And, whether our canvas is created with specific pixel dimensions or using `(win
 
 (clear any cookie warnings and look at the *Console* section after running the sketch below)
 
-```p5
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  background(220, 20, 120);
-  print(width, height);
-}
-
-function draw() {
-  
-}
-```
+{% include p5-editor.html id="M45a9yw5w" %}
 
 
 ## Coordinate System
@@ -98,23 +66,7 @@ rect(10, 100, 80, 40);
 ellipse(200, 300, 100);
 ```
 
-```p5
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noLoop();
-}
-
-function draw() {
-  background(220, 20, 120);
-
-  rect(10, 10, 80);
-  ellipse(200, 200, 100);
-  
-  rect(10, 100, 80, 40);
-  ellipse(300, 200, 100, 150);
-}
-
-```
+{% include p5-editor.html id="TyHTKL3db" %}
 
 We can play with the coordinates and sizes on the sketch above ☝️ to gain some familiarity and intuition about the coordinate system and these two functions.
 
@@ -125,26 +77,7 @@ rect(210, 300, 80);
 ellipse(310, 300, 80);
 ```
 
-```p5
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noLoop();
-}
-
-function draw() {
-  background(220, 20, 120);
-
-  rect(10, 10, 80);
-  rect(110, 10, 80);
-
-  ellipse(110, 200, 80);
-  ellipse(210, 200, 80);
-
-  rect(210, 300, 80);
-  ellipse(310, 300, 80);
-}
-
-```
+{% include p5-editor.html id="2iZYx1nuv" %}
 
 # 🤔
 
@@ -157,25 +90,7 @@ rect(210, 300, 80);
 ellipse(350, 340, 80);
 ```
 
-```p5
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noLoop();
-}
-
-function draw() {
-  background(220, 20, 120);
-
-  rect(10, 10, 80);
-  rect(110, 10, 80);
-
-  ellipse(110, 200, 80);
-  ellipse(210, 200, 80);
-
-  rect(210, 300, 80);
-  ellipse(350, 340, 80);
-}
-```
+{% include p5-editor.html id="KiSnvsQhf" %}
 
 We can also use the p5.js functions [`rectMode()`](https://p5js.org/reference/#/p5/rectMode) and [`ellipseMode()`](https://p5js.org/reference/#/p5/ellipseMode) to change how rectangles and ellipses are drawn.
 
@@ -189,23 +104,7 @@ To draw ellipses by specifying their top-left corner, we can use:
 ellipseMode(CORNER);
 ```
 
-```p5
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noLoop();
-}
-
-function draw() {
-  background(220, 20, 120);
-
-  rect(10, 10, 80);
-  rect(110, 10, 80);
-
-  ellipseMode(CORNER);
-  ellipse(210, 10, 80);
-  ellipse(310, 10, 80);
-}
-```
+{% include p5-editor.html id="3frUheLXu" %}
 
 One thing to note is that once we call `rectMode()` or `ellipseMode()`, every shape that we draw afterwards will be drawn using the mode specified. To undo this, we can call:
 
@@ -214,87 +113,18 @@ rectMode(CORNER);
 ellipseMode(CENTER);
 ```
 
-```p5
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noLoop();
-}
+{% include p5-editor.html id="WTddwWpvG" %}
 
-function draw() {
-  background(220, 20, 120);
-
-  rect(10, 10, 80);
-  rect(110, 10, 80);
-
-  ellipseMode(CORNER);
-  ellipse(210, 10, 80);
-  ellipse(310, 10, 80);
-
-  rectMode(CENTER);
-  ellipseMode(CENTER);
-  rect(width / 2, 200, 80);
-  rect(width / 2, 300, 80);
-  ellipse(width / 2, 400, 80);
-  ellipse(width / 2, 500, 80);
-}
-```
 
 Or, better yet, we can just pick one mode in the beginning, whichever we think will be most useful for our sketch, and keep it throughout the whole sketch.
 
 Let's say we want to draw a grid of squares, rectangles and circles. In this situation, where we are starting at the top-left corner of our canvas and drawing to the right and to the bottom, it might be easier to do math for the locations of the top-left corners of our shapes. Since we'll keep the same mode throughout the whole sketch, we can just put `ellipseMode(CORNER)` inside our `setup()` function.
 
-```p5
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noLoop();
-  ellipseMode(CORNER);
-}
-
-function draw() {
-  background(220, 20, 120);
-
-  rect(10, 10, 80);
-  rect(110, 10, 80);  
-  ellipse(210, 10, 80);
-  ellipse(310, 10, 80);
-
-  ellipse(10, 110, 80);
-  ellipse(110, 110, 80);
-  rect(210, 110, 180, 80);
-  
-  rect(10, 210, 80, 180);
-  rect(110, 210, 80);
-  rect(210, 210, 80);
-  ellipse(310, 210, 80);
-
-  ellipse(110, 310, 80);
-  ellipse(210, 310, 80);
-  rect(310, 310, 80);
-}
-```
+{% include p5-editor.html id="NL-wqSSL1" %}
 
 But, on the other hand, if we are drawing concentric shapes, or placing them relative to the center of the canvas, we might find it easier to use `rectMode(CENTER)` throughout our whole sketch:
 
-```p5
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noLoop();
-  rectMode(CENTER);
-}
-
-function draw() {
-  background(220, 20, 120);
-
-  rect(80, 80, 130);
-  ellipse(80, 80, 140);
-  ellipse(80, 80, 70);
-
-  rect(width / 2, height / 2, 80, 160);
-  ellipse(width / 2, height / 2, 40);
-  ellipse(width / 2 - 80, height / 2, 80);
-  ellipse(width / 2 + 80, height / 2, 80);
-}
-```
+{% include p5-editor.html id="hmROElyh4" %}
 
 ## More Shapes
 
@@ -304,22 +134,7 @@ The [`quad()`](https://p5js.org/reference/#/p5/quad) function can be used to dra
 
 Similarly, the [`triangle()`](https://p5js.org/reference/#/p5/triangle) function draws a triangle from $$3$$ pairs of `x` and `y` coordinates.
 
-```p5
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noLoop();
-}
-
-function draw() {
-  background(220, 20, 120);
-
-  rect(10, 10, 140);
-  quad(10, 80, 80, 50, 150, 80, 80, 110);
-
-  ellipse(230, 80, 140);  
-  triangle(230, 10, 170, 115, 290, 115);
-}
-```
+{% include p5-editor.html id="rkWRuOQ26" %}
 
 The [`arc()`](https://p5js.org/reference/#/p5/arc) function draws partial ellipses, and its first $$4$$ parameters are just like the `ellipse()` parameters for `x` and `y` coordinates, `width` and `height`, but the 5$$^{th}$$ an 6$$^{th}$$ parameters specify the angles of where the arc starts and stops, respectively.
 
@@ -333,23 +148,7 @@ How angles are measured in p5.js and degree/radian equivalents for some common a
 
 So now, we can use this drawing as reference to help us draw some partial ellipses:
 
-```p5
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noLoop();
-}
-
-function draw() {
-  background(220, 20, 120);
-
-  arc(100, 100, 200, 200, PI / 4, -PI / 4);
-
-  arc(200, 100, 120, 120, PI / 6, -PI / 6);
-
-  arc(270, 100, 50, 50, PI / 12, -PI / 12);
-}
-
-```
+{% include p5-editor.html id="12qrmbjku" %}
 
 ## Non-regular and Custom Shapes
 
@@ -359,32 +158,7 @@ First, we call the [`beginShape()`](https://p5js.org/reference/#/p5/beginShape) 
 
 We can call `endShape(CLOSE)` to close our shape without having to replicate the first vertex as the last vertex.
 
-```p5
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noLoop();
-}
-
-function draw() {
-  background(220, 20, 120);
-
-  beginShape();
-
-  vertex(width / 2 - 50, height / 2 - 50);
-  vertex(width / 2, 10);
-
-  vertex(width / 2 + 50, height / 2 - 50);
-  vertex(width - 10, height / 2);
-
-  vertex(width / 2 + 50, height / 2 + 50);
-  vertex(width / 2, height - 10);
-
-  vertex(width / 2 - 50, height / 2 + 50);
-  vertex(10, height / 2);
-
-  endShape(CLOSE);
-}
-```
+{% include p5-editor.html id="_ewE9wElh" %}
 
 ## Colors
 
@@ -404,56 +178,13 @@ Besides the `background()` command, which we've been using to specify the pink c
 
 And, just like the `rectMode()` and `ellipseMode()` commands, once we call `fill()` or `stroke()`, everything drawn afterwards will have the same color.
 
-```p5
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noLoop();
-}
-
-function draw() {
-  background(220, 20, 120);
-
-  fill(255, 0, 0);
-  rect(20, 20, 60);
-
-  stroke(255);
-  rect(100, 20, 60);
-
-  fill(0, 0, 255);
-  rect(180, 20, 60);
-
-  fill(255, 0, 255);
-  stroke(0, 255, 0);
-  rect(260, 20, 60);
-}
-```
+{% include p5-editor.html id="oCr-eh9CB" %}
 
 Colors can also be specified using [html color names](https://www.w3schools.com/tags/ref_colornames.asp), or [hex notation](https://www.w3schools.com/html/html_colors_hex.asp).
 
 Hex notation might be familiar from image-editing software. It contains the exact same information as the `RGB` format, but represented in [hexadecimal notation](https://byjus.com/maths/hexadecimal-number-system/), where each of the $$3$$ channel values between $$0$$ and $$255$$ is represented as a hexadecimal number between `00` and `FF`, where `FF` is the hexadecimal notation for the number $$255$$.
 
-```p5
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noLoop();
-}
-
-function draw() {
-  background(220, 20, 120);
-
-  fill(255, 0, 0);
-  rect(20, 20, 60);
-
-  fill("#00ff00");
-  rect(100, 20, 60);
-
-  fill("blue");
-  rect(180, 20, 60);
-  
-  fill("lightpink");
-  rect(260, 20, 60);
-}
-```
+{% include p5-editor.html id="4ycW7yWmV" %}
 
 ### Color Modes
 
@@ -471,47 +202,6 @@ In `HSB` mode the Hue value has a range from $$0$$ to $$359$$, and Saturation an
 
 This sketch demonstrates how you can describe the color red in several different ways
 
-```p5
-
-// from "Interaction of Color" by Josef Albers
-/*
- If one says "Red" (the name of a color)
- and there are 50 people listening,
- it can be expected that there will be 
- 50 reds in their minds
- And one can be sure that all these reds 
- will be very different
-*/
-
-// In a computer we are faced with a 
-// different problem than the above.
-// we have a discrete 'red' that can be 
-// referred to in a number of different ways- 
-// rgb values, hex values, as a hue, 
-// or by the HTML color name
-// but all screens display that red differently
-
-function setup() {
-  createCanvas(400, 400);
-  // RGB value for 'red'
-  fill(255,0,0);
-  rect(0,0,199,199);
-
-  // HTML 'red'
-  fill('red');  
-  rect(200,0,399,199);
-  
-  // HEX value for 'red'
-  fill('#ff0000');
-  rect(0,200,199,399);
-  
-  // HSB value for 'red'
-  colorMode(HSB);
-  fill(0,100,100);
-  rect(200,200,399,399);
-}
-
-
-```
+{% include p5-editor.html id="uzKrIICkm" %}
 
 Some people find it easier to interpolate between colors and create color transitions in the `HSB` space because we can go through a wide palette of colors by just varying hue value. Where in `RGB` we always have to account for all $$3$$ channels when creating transitions or interpolating colors.

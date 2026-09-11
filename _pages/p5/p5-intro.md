@@ -15,17 +15,8 @@ function draw() {
   ellipse(120, 120, 50, 50);
 }
 ```
+{% include p5-editor.html id="bvmSu50O6a" %}
 
-```p5
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-}
-
-function draw() {
-  background(220, 20, 20);
-  ellipse(120, 120, 50, 50);
-}
-```
 
 ## Setup & Draw
 
@@ -52,22 +43,7 @@ stroke('orange');
 fill('blue');
 ```
 
-```p5
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  strokeWeight(8);
-  stroke('orange');
-  fill('blue');
-}
-
-function draw() {
-  background(220, 20, 20);
-  ellipse(120, 120, 50, 50);
-  ellipse(150, 200, 50, 50);
-  ellipse(220, 160, 50, 50);
-  ellipse(250, 250, 50, 50);
-}
-```
+{% include p5-editor.html id="Z6jv5gVTo" %}
 
 
 ### `draw()`
@@ -88,22 +64,7 @@ Unlike the `setup()` function, the `draw()` function runs repeatedly as long as 
 
 Without worrying too much about the details, but just to check that whatever we put inside `draw()` is always running, let's modify the code above and use the number of times that the `draw()` function has executed to move the ellipses across the canvas:
 
-```p5
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  strokeWeight(8);
-  stroke('orange');
-  fill('blue');
-}
-
-function draw() {
-  background(220, 20, 20);
-  ellipse(frameCount, 120, 50, 50);
-  ellipse(frameCount, 200, 50, 50);
-  ellipse(frameCount, 160, 50, 50);
-  ellipse(frameCount, 250, 50, 50);
-}
-```
+{% include p5-editor.html id="tmnnt_GsQ" %}
 
 That special `frameCount` keyword keeps track of how many times our code has executed and we can use that value to draw our ellipses at a slightly different location every time.
 
