@@ -15,17 +15,16 @@ The canvas is the section of our page where we can actually draw things. There's
 The `createCanvas()` command takes two parameters, or, two numbers, that specify a `width` and a `height` for our drawing area. We can always give it specific values in pixels, like: `createCanvas(640, 480)` or `createCanvas(1920, 1080)`, but if we want our canvas to be proportional to our browser window, we can use the special p5.js keywords `windowWidth` and `windowHeight` to make the canvas take up as much space as possible on our page: `createCanvas(windowWidth, windowHeight)`.
 
 We can see the difference by running the following two sketches:
+
 {% include p5-editor.html id="AHvLeXMJM" %}
 {% include p5-editor.html id="FJCJwnz7V" %}
-
-
 
 
 And, whether our canvas is created with specific pixel dimensions or using `(windowWidth, windowHeight)`, we can always ask p5.js for the exact size of our canvas by accessing the [`width`](https://p5js.org/reference/#/p5/width) and [`height`](https://p5js.org/reference/#/p5/height) *variables*.
 
 (clear any cookie warnings and look at the *Console* section after running the sketch below)
 
-{% include p5-editor.html id="M45a9yw5w" %}
+<iframe src="https://editor.p5js.org/shfitz/sketches/M45a9yw5w"></iframe>
 
 
 ## Coordinate System
