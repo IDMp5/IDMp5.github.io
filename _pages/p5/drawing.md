@@ -207,7 +207,14 @@ After that, all of the color commands like `background()`, `fill()` and `stroke(
 In `HSB` mode the Hue value has a range from $$0$$ to $$359$$, and Saturation and Brightness go from $$0$$ to $$100$$. The unit for Saturation and Brightness is $$\%$$, where the Hue value is represented in degrees. This means that hue values wrap around their range, and a hue value of $$359$$ is actually right next to the hue value of $$0$$.
 
 This sketch demonstrates how you can describe the color red in several different ways
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/uzKrIICkm"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/uzKrIICkm">
+    open example in new window
+  </a>
+</div>
 
-{% include p5-editor.html id="uzKrIICkm" %}
 
 Some people find it easier to interpolate between colors and create color transitions in the `HSB` space because we can go through a wide palette of colors by just varying hue value. Where in `RGB` we always have to account for all $$3$$ channels when creating transitions or interpolating colors.
