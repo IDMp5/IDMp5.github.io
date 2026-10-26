@@ -9,9 +9,9 @@ Well, a video is just a bunch of images, one after the other, so it should be pr
 
 In this example we load a video from a specific URL (our sketch's directory) by first creating a `<video>` html element, and then hiding it. This is the easiest way to load video files into p5.js and have access to its frames. We just have to remember to hide the video element once we've loaded the file:
 
-### NOTE: sketches that load the camera won't work here. They have to be opened in a new window directly from their [LINK](https://editor.p5js.org/tgh-p5-tutorials/sketches/6tdhpcMEH).
+// https://editor.p5js.org/shfitz/sketches/R0zSnL7dK
 
-{% include p5-editor.html id="6tdhpcMEH" %}
+{% include p5-editor.html id="R0zSnL7dK" %}
 
 Now, accessing and manipulating the video frame pixel data can be done using the exact same logic we used to manipulate image pixels.
 
@@ -32,14 +32,15 @@ if(r < 64 && g < 64 && b < 64) {
   mVideo.pixels[i + 0] += 191;
 }
 ```
+//https://editor.p5js.org/shfitz/sketches/LT66Zcjti
 
-{% include p5-editor.html id="JhwwmKyeN" %}
+{% include p5-editor.html id="LT66Zcjti" %}
 
 ## Video From Camera
 
 We can also get a video stream from our camera. The process is very similar. We use a `<capture>` html element that we can access with p5.js code, and then hide the actual html element:
 
-### NOTE: sketches that use the camera won't work here. They have to be opened in a new window directly from their [LINK](https://editor.p5js.org/tgh-p5-tutorials/sketches/5kRthltqb).
+### NOTE: sketches that use a webcam won't work here. They have to be opened in a new window directly [LINK](https://editor.p5js.org/tgh-p5-tutorials/sketches/5kRthltqb).
 
 {% include p5-editor.html id="5kRthltqb" %}
 
@@ -49,7 +50,7 @@ Easy.
 
 ## Processing Videos
 
-And, just like images, the capture object has a pixel array and similar member functions and variables, so we can just copy and paste some of the code from one of the previous sketches into this sketch:
+Just like images, the capture object has a pixel array and similar member functions and variables, so we can just copy and paste some of the code from one of the previous sketches into this sketch:
 
 ### NOTE: sketches has to be opened in a new window using its [SKETCH LINK](https://editor.p5js.org/tgh-p5-tutorials/sketches/weGX7Zf4h)
 
@@ -75,5 +76,5 @@ It's a little bit harder to figure out the dominant color channel in a video or 
 
 And, now, finally, let's copy our circle pattern code from the [images tutorial](../images/), but use pixel color values that are coming from the camera to draw our circles:
 
-### NOTE: sketches has to be opened in a new window using its [SKETCH LINK](https://editor.p5js.org/tgh-p5-tutorials/sketches/XJclc3KE0)
+### NOTE: sketches that use a webcam won't work here. They have to be opened in a new window directly [LINK](https://editor.p5js.org/tgh-p5-tutorials/sketches/XJclc3KE0)
 {% include p5-editor.html id="XJclc3KE0" %}

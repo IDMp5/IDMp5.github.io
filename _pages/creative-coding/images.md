@@ -5,17 +5,17 @@ title: Images
 
 We are going to look at how to work with images and pixel arrays in p5js.
 
-Just getting an image on the canvas is not very hard. We'll follow steps that are similar to how we load data files or fonts, and then, drawing the image is similar to how we would draw a `rect()`:
+Just getting an image on the canvas is not very hard, we neeed to use a promises, async, and await pattern. Once out image is loaded, drawing the image is similar to how we would draw a `rect()`:
 
 {% include p5-editor.html id="V24PFFw_K" %}
 
-Once our image is loaded into a variable, it becomes a [`p5.Image`](https://p5js.org/reference/#/p5.Image) object, and we can use its `width` and `height` variables to check its size in pixels. Notice the output in the console; our image is a lot bigger than our $$400$$ x $$400$$ canvas.
+Once our image is loaded into a variable, it becomes a [`p5.Image`](https://p5js.org/reference/p5/p5.Image/) object, and we can use its `width` and `height` variables to check its size in pixels. Notice the output in the console; our image is a lot bigger than our $$400$$ x $$400$$ canvas.
 
 If we only specify two values for the `image()` function, the image is drawn at its original resolution, and in this case it overflows.
 
 Let's resize it so it fits in our canvas, and then center it.
 
-We can use [`resize()`](https://p5js.org/reference/#/p5.Image/resize), another member function from the `p5.Image` object, to properly scale an image. If we look at the documentation, we'll see that if we pass a $$0$$ as one of the two parameters to `resize()`, it will resize the image in one direction while keeping its original aspect ratio:
+We can use [`resize()`](https://p5js.org/reference/p5.Image/resize/), another member function from the `p5.Image` object, to properly scale an image. If we look at the documentation, we'll see that if we pass a $$0$$ as one of the two parameters to `resize()`, it will resize the image in one direction while keeping its original aspect ratio:
 
 {% include p5-editor.html id="dSNYc-RFv" %}
 
@@ -29,7 +29,7 @@ After we scale our image we can compute some offsets to center it on the canvas.
 
 We can also use some of the `p5.Image` member variables and methods to access and manipulate the pixels of an image. But, first, let's see how those are organized.
 
-If we look at the documentation we'll see that `p5.Image` class objects have a [`pixels`](https://p5js.org/reference/#/p5.Image/pixels) member variable that contains the color values for all of the pixels in the image.
+If we look at the documentation we'll see that `p5.Image` class objects have a [`pixels`](https://p5js.org/reference/p5.Image/pixels/) member variable that contains the color values for all of the pixels in the image.
 
 And if we print some information about this array we'll notice a couple of things:
 ```js
@@ -94,7 +94,7 @@ Let's take a look at a situation where we want to draw shapes to the screen base
 
 Now we care about the $$(x, y)$$ position of the pixel within the image because that will correspond to where we place our shape on our canvas.
 
-Let's start by just building up the logic for drawing a circle pattern in our canvas using nested ``for()`` loops. All of the logic for loading and scaling the image is there in the `preload()` and `setup()` functions, but we're not using the image yet. We just want to make sure the logic for drawing our circle pattern works.
+Let's start by just building up the logic for drawing a circle pattern in our canvas using nested ``for()`` loops. All of the logic for loading and scaling the image is there in the `setup()` function, but we're not using the image yet. We just want to make sure the logic for drawing our circle pattern works.
 
 These `for()` loops should look familiar. We start at `mRadius` and draw circles that are<br>`2 * mRadius` pixels wide, with a spacing that is also `2 * mRadius` pixels:
 ```js
