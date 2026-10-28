@@ -9,12 +9,12 @@ Some of the things we ask our programs to do take time. And not just a little bi
 Take a look at this code:
 
 ```js
-let data = loadJSON("https://data.com/rent.json");
+let img = loadImage("https://data.com/myPhoto.jpg");
 ```
 
-Our intuition says that the variable `data` should now contain the data from the JSON file. But the file lives on a server somewhere on the internet. Downloading it takes time — many milliseconds at best, seconds at worst. JavaScript can't just stop everything to wait for it.
+Our intuition says that the variable `img` should now contain the data from the image file. But the file lives on a server somewhere on the internet. Downloading it takes time — many milliseconds at best, seconds at worst. JavaScript can't just stop everything to wait for it.
 
-`loadJSON()` gives us a **Promise** and later, the data.
+`loadJSON()` gives us a **Promise** until the data arrives.
 
 ## Promise
 
@@ -48,10 +48,8 @@ async function setup() {
 }
 ```
 
-Let's break it down:
-
 1. The sketch starts and p5.js calls `setup()`.
-2. `loadJSON()` begins downloading the JSON file. Because of `await`, it pauses right there.
+2. `loadJSON()` begins downloading the JSON file. Because of the `await` keyword attached to the `setup()` function , it pauses.
 3. When the file arrives, the Promise is fulfilled, and the downloaded data is assigned to `data`.
 4. `setup()` can now finish, running any code that follows `loadJSON()`.
 
@@ -69,7 +67,7 @@ async function setup() {
   try {
     data = await loadJSON("https://data.com/rent.json");
   } catch (err) {
-    print("Could not load the data: " + err);
+    console.log("Could not load the data: " + err);
     data = []; // use an empty array as a fallback, or better still, store some dummy data 
   }
 }
@@ -96,7 +94,7 @@ data = await loadJSON("https://data.com/rent.json");
 // use data here, in the normal flow of our code
 ```
 
-p5.js load functions still accept callbacks, But `await` is the pattern we'll use when we write our own code. We may encounter some libraries that rely on callbacks, but we're going to avoid them when possible.
+p5.js load functions still accept callbacks, and it can be used in conjunction with `await`. We may look at some examples of this later in class.
 
 ## Loading all kinds of things
 
@@ -158,12 +156,12 @@ function mousePressed() {
 ```
 ## Loading several things at once
 
-If we `await` one load function one after another, they download in sequence: first an image, then a font, then some CSV data (or however you arrange that code). Each file would have to finish before the next one starts.
+If we `await` one load function one after another, the files download in sequence: first an image, then a font, then some CSV data (or however you arrange the code). Each file would have to finish before the next one starts.
 
 If your files don't depend on each other, so they can all be downloaded at the same time. JavaScript gives us a helper for this: `Promise.all()`. It takes an array of Promises and returns a single Promise that is fulfilled when all of them are ready:
 
 ```js
-let images;
+let images =[];
 
 async function setup() {
   createCanvas(640, 480);
@@ -172,24 +170,20 @@ async function setup() {
     loadImage("two.png"),
     loadImage("three.png")
   ]);
-  // results is an array of the three images, in order
+  // results is an array of the three images
   images = results;
 }
 ```
 
 Using `Promise.all()` is usually faster than loading the files one at a time, because the downloads overlap.
 
-
-## Recap
+## Review!
 
 - A **Promise** represents a value that will be available in the future.
 - `loadJSON()`, `loadImage()`, `loadTable()`, `loadStrings()`, `loadFont()` and `loadSound()` all return Promises.
 - `await` pauses our code until a Promise is fulfilled, and `await` only works inside `async` functions.
-- An `async` function is allowed to use `await`, and returns a Promise itself.
 - In p5.js, we load everything we need at the top of an `async function setup()`, before p5.js starts calling `draw()`.
 - Use `Promise.all()` to load several files at the same time.
 - Use `try` / `catch` to handle files that fail to load.
-- `await` works with any Promise, not just p5.js functions.
 
-Now that we know how to wait for our files, we can put this into practice. Next we'll load real data into our sketches — JSON and CSV files — and visualize it.
-
+Now that we know how to wait for our files, we can put this into practice. 

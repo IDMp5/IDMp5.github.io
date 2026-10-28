@@ -33,7 +33,7 @@ If we look at the documentation we'll see that `p5.Image` class objects have a [
 
 And if we print some information about this array we'll notice a couple of things:
 ```js
-print("pixel array size: ", mImage.pixels.length);
+console.log("pixel array size: " + mImage.pixels.length);
 ```
 
 gives:<br>`pixel array size: 0`
@@ -41,7 +41,7 @@ gives:<br>`pixel array size: 0`
 That's because before we can use the pixel array we have to tell the image to prepare it for us with the function `loadPixels()`. So now:
 ```js
 mImage.loadPixels();
-print("pixel array size: ", mImage.pixels.length);
+console.log("pixel array size: " + mImage.pixels.length);
 ```
 
 gives:<br>`pixel array size: 550400`
