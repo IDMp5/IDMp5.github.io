@@ -9,9 +9,16 @@ Well, a video is just a bunch of images, one after the other, so it should be pr
 
 In this example we load a video from a specific URL (our sketch's directory) by first creating a `<video>` html element, and then hiding it. This is the easiest way to load video files into p5.js and have access to its frames. We just have to remember to hide the video element once we've loaded the file:
 
-// https://editor.p5js.org/shfitz/sketches/R0zSnL7dK
 
-{% include p5-editor.html id="R0zSnL7dK" %}
+
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/R0zSnL7dK"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/R0zSnL7dK">
+    open example in new window
+  </a>
+</div>
 
 Now, accessing and manipulating the video frame pixel data can be done using the exact same logic we used to manipulate image pixels.
 
@@ -32,9 +39,16 @@ if(r < 64 && g < 64 && b < 64) {
   mVideo.pixels[i + 0] += 191;
 }
 ```
-//https://editor.p5js.org/shfitz/sketches/LT66Zcjti
 
-{% include p5-editor.html id="LT66Zcjti" %}
+
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/LT66Zcjti"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/LT66Zcjti">
+    open example in new window
+  </a>
+</div>
 
 ## Video From Camera
 
