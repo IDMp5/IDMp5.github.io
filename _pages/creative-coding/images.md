@@ -5,9 +5,16 @@ title: Images
 
 We are going to look at how to work with images and pixel arrays in p5js.
 
-Just getting an image on the canvas is not very hard, we neeed to use a promises, async, and await pattern. Once out image is loaded, drawing the image is similar to how we would draw a `rect()`:
+Just getting an image on the canvas is not very hard, we neeed to use a promises, async, and await pattern. Once our image is loaded, drawing the image is similar to how we would draw a `rect()`:
 
-{% include p5-editor.html id="V24PFFw_K" %}
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/U8rTnuSZX"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/U8rTnuSZX">
+    open example in new window
+  </a>
+</div>
 
 Once our image is loaded into a variable, it becomes a [`p5.Image`](https://p5js.org/reference/p5/p5.Image/) object, and we can use its `width` and `height` variables to check its size in pixels. Notice the output in the console; our image is a lot bigger than our $$400$$ x $$400$$ canvas.
 
@@ -17,7 +24,14 @@ Let's resize it so it fits in our canvas, and then center it.
 
 We can use [`resize()`](https://p5js.org/reference/p5.Image/resize/), another member function from the `p5.Image` object, to properly scale an image. If we look at the documentation, we'll see that if we pass a $$0$$ as one of the two parameters to `resize()`, it will resize the image in one direction while keeping its original aspect ratio:
 
-{% include p5-editor.html id="dSNYc-RFv" %}
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/7-QwPwBbB"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/7-QwPwBbB">
+    open example in new window
+  </a>
+</div>
 
 After we scale our image we can compute some offsets to center it on the canvas. These offsets are half of the difference between the image size and the canvas size:
 
@@ -76,13 +90,27 @@ We are going to change the green value of every pixel in our image using the `mo
 
 Any time we change the values in a `p5.Image` `pixels` array we have to call `updatePixels()` so p5.js can update some internal values for actually drawing our new image.
 
-{% include p5-editor.html id="JbAHwnWwI" %}
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/m671L8_p7"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/m671L8_p7">
+    open example in new window
+  </a>
+</div>
 
 Even if every pixel isn't changed by the same amount, as long as each pixel gets the same logic, we can use this method for iterating over the image's pixel values.
 
 Instead of incrementing the green value of all of the pixels, let's exaggerate its dominant color. Since we're going to need to refer to the original image in order to know which color was its dominant color, we'll have to first make a copy of the image:
 
-{% include p5-editor.html id="ehdyLdUOG" %}
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/THH1_jXF_"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/THH1_jXF_">
+    open example in new window
+  </a>
+</div>
 
 Now, even though each pixel is being changed by a different amount, according to its color values, the logic applied to each pixel is the same, independent of $$(x, y)$$ location, so we can still use the method with just one `for()` loop.
 
@@ -113,7 +141,14 @@ let mRadius = floor(map(mouseY, 0, height, 2, 32, true));
 
 And we get something like this (the circle diameter was reduced to `1.75 * mRadius` to give a more pleasant look):
 
-{% include p5-editor.html id="EZU_o4JNl" %}
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/dWYwhLKR0"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/dWYwhLKR0">
+    open example in new window
+  </a>
+</div>
 
 Now the only thing we have to do is get the color values at the image's $$(x, y)$$ position to use for our `fill()`. The math looks a bit intimidating at first, but let's go through it with images and build up our understanding of how to go from our two-dimensional $$(x, y)$$ value to a single index $$i$$ that will give us the right color values from the pixel array.
 
@@ -152,6 +187,13 @@ let pIndex = 4 * (y * mImage.width + x);
 
 That will give us the $$red$$ value for the pixel, while the $$green$$ and $$blue$$ values are at `pIndex + 1` and `pIndex + 2`, respectively.
 
-{% include p5-editor.html id="ff3i5NEoJ" %}
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/_Uxv9HVFd"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/_Uxv9HVFd">
+    open example in new window
+  </a>
+</div>
 
 A little bit of math, but once we know it, it's not that bad.
