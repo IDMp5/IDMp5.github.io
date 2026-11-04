@@ -9,12 +9,19 @@ The `ml5` library helps us integrate a number of useful machine learning models 
 We can load the library into our projects by adding something like this to the header of our `index.html` file:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/ml5@1.2.1/dist/ml5.min.js"></script>
+<script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
 ```
 
 Let's say we want to detect faces in an image. We can start with some code that loads an image with faces from an URL:
 
-{% include p5-editor.html id="FhxxKB7-g5" %}
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/zlPbh0JLn"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/zlPbh0JLn">
+    open example in new window
+  </a>
+</div>
 
 Cool.
 
@@ -22,7 +29,14 @@ Now, we can take a look at the documentation for the [`FaceMesh`](https://docs.m
 
 This sketch loads the library and instantiates a `FaceMesh` object with default parameters:
 
-{% include p5-editor.html id="6i0DCr0hUk" %}
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/GTSaJl8-W"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/GTSaJl8-W">
+    open example in new window
+  </a>
+</div>
 
 In order to actually detect faces we have to call the `detect()` function on an image, like this:
 
@@ -34,7 +48,15 @@ Ohhh... _callback_ ! Since detecting faces, or running any kind of ML model, is 
 
 We can create a `doneDetecting()` _callback_ function to print the results of our detection:
 
-{% include p5-editor.html id="WcVfByzKU" %}
+
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/UCD0eU34H"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/UCD0eU34H">
+    open example in new window
+  </a>
+</div>
 
 Running the above code, we see that the `detect()` function returns a list of objects that look like this:
 
@@ -60,8 +82,14 @@ Or, draw ellipses on the eyes, with:
 ellipse(leftEye.centerX, leftEye.centerY, 16);
 ellipse(rightEye.centerX, rightEye.centerY, 16);
 ```
-
-{% include p5-editor.html id="Qy5cK8xwf" %}
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/EBdUjJcBx"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/EBdUjJcBx">
+    open example in new window
+  </a>
+</div>
 
 ## More Faces !
 
@@ -73,7 +101,14 @@ ml5.faceMesh({ maxFaces: 5 });
 
 And now we just have to remember to iterate through the results in the callback function:
 
-{% include p5-editor.html id="Tj7HLq7b9" %}
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/zArCClkQ2"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/zArCClkQ2">
+    open example in new window
+  </a>
+</div>
 
 ## Meshes
 
@@ -81,7 +116,14 @@ The `FaceMesh` model is actually good for, well, getting a mesh with all of the 
 
 We can see what these meshes look like by iterating through the `keypoints` member of each of the resulting face objects:
 
-{% include p5-editor.html id="-Kp0n6Mfg" %}
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/C40dZbEQJ"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/C40dZbEQJ">
+    open example in new window
+  </a>
+</div>
 
 ## Not Just Pretty Faces
 
@@ -97,7 +139,14 @@ handPose.detect(mImg, doneDetecting);
 ```
 And that's it. The rest stays the same:
 
-{% include p5-editor.html id="_PonOkHI3" %}
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/V5lno8OsS"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/V5lno8OsS">
+    open example in new window
+  </a>
+</div>
 
 This model can be super useful for detecting hand gestures or hand signals.
 
@@ -110,7 +159,3 @@ These last two are limited by the sets of images/sounds that were used during tr
 The image classifier uses a couple of pre-built models, including MobileNetV2, but it doesn't really specify the list of classes that it uses. It might be [this](https://deeplearning.cms.waikato.ac.nz/user-guide/class-maps/IMAGENET/).
 
 If we want to classify other types of images or sounds, we have to train our own models.
-
-Luckily, `ml5` has a way to load models that we can train quickly using something called [Teachable Machine](https://teachablemachine.withgoogle.com/).
-
-Let's take a look at that [next](../teachable-machine/).
