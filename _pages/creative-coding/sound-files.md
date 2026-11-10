@@ -20,13 +20,7 @@ The `loadSound()` function returns a [`SoundFile`](https://p5js.org/reference/#/
 
 What happens if we click the mouse multiple times? It sounds like the `song` object starts playing the file multiple times over itself.
 
-There are two ways we can fix this.
-
-First, we can specify the file's [`playMode()`](https://p5js.org/reference/#/p5.SoundFile/playMode) to be either `restart` or `untilDone`, and that will make it only play one instance of the file, either by starting the song over or not doing anything until it plays until the end:
-
-{% include p5-editor.html id="U8GL6qdUD" %}
-
-The other way is to check first if the object is already playing the file and only call `play()` if it's not. We can also use [`isPlaying()`](https://p5js.org/reference/#/p5.SoundFile/isPlaying) to change the background color as an indication of the play state:
+We can check if the object is already playing the file and only call `play()` if it's not. We can also use [`isPlaying()`](https://p5js.org/reference/#/p5.SoundFile/isPlaying) to change the background color as an indication of the play state:
 
 {% include p5-editor.html id="hABEaYEA1" %}
 
