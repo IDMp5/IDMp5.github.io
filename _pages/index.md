@@ -36,6 +36,9 @@ permalink: /
   advanced-arraying
   classes
 {% endcapture %}
+<li>[Sound Files](https://p5sound.com/files-loading/index.html)</li> <i>from p5sound.com</i>
+<li>[Analyzing sound](https://p5sound.com/analysis-amplitude/index.html)</li><i>from p5sound.com</i>
+<li>[Oscillators and noise](https://p5sound.com/synth-oscillators/index.html)</li><i>from p5sound.com</i>
 {% include home-section.html section="coding" title=title topics=topics %}
 
 <!-- Creative Coding -->
@@ -54,11 +57,8 @@ permalink: /
   vectors
   images
   videos
-  3d
-  sound-files
-  sound-processing
-  sound-synthesis
 {% endcapture %}
+
 {% include home-section.html section="creative-coding" title=title topics=topics %}
 
 <!-- AI -->
