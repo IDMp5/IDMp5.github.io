@@ -35,10 +35,11 @@ permalink: /
   objects
   advanced-arraying
   classes
+  <li><a href="https://p5sound.com/files-loading/index.html">Sound Files</a></li> <i>from p5sound.com</i>
+<li><a href="https://p5sound.com/analysis-amplitude/index.html">Analyzing sound</a></li><i>from p5sound.com</i>
+<li><a href="https://p5sound.com/synth-oscillators/index.html">Oscillators and noise</a></li><i>from p5sound.com</i>
 {% endcapture %}
-<li>[Sound Files](https://p5sound.com/files-loading/index.html)</li> <i>from p5sound.com</i>
-<li>[Analyzing sound](https://p5sound.com/analysis-amplitude/index.html)</li><i>from p5sound.com</i>
-<li>[Oscillators and noise](https://p5sound.com/synth-oscillators/index.html)</li><i>from p5sound.com</i>
+
 {% include home-section.html section="coding" title=title topics=topics %}
 
 <!-- Creative Coding -->
