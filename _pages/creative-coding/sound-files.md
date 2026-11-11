@@ -78,42 +78,42 @@ Again, there's some extra logic that we have to use to set `shouldRestart` every
 
 ## Seeing Sound
 
-One more last thing, hopefully a fun one.
-
 Let's visualize the songs while they're playing.
 
-The p5.js `SoundFile` object doesn't seem to have any function or variable that tells us the exact values of the samples that are currently playing. The closest thing it has is a [`getPeaks()`](https://p5js.org/reference/#/p5.SoundFile/getPeaks) function that gives us a simplified, resampled, version of values for the entire sound file.
+The p5.js `SoundFile` object doesn't have any function or variable that tells us the exact values of the samples that are currently playing. It has a [`getPeaks()`](https://p5js.org/reference/#/p5.SoundFile/getPeaks) function, which gives us a simplified, resampled version of the values for the *entire* sound file at once. That's handy for looking at a whole song's overall shape, but it's precomputed for the whole file — it doesn't tell us what's happening *right now*.
 
-The default length of the array returned by `getPeaks()` is $$5$$ times the canvas `width`, so no matter how long the song is, the length of the peaks array will always be the same. The numbers in this array represent samples, which are like the pixels of sound files. In this case they have been normalized to a range of $$[-1, 1]$$, where numbers with larger absolute values represent louder samples.
+If we just want to know how loud the song is at this moment, we read that directly with an amplitude reader. p5.sound gives us the `p5.Amplitude` object for this. We create one and route our song's signal into it:
 
-We can use this to map the sample values of the current song from $$[-1, 1]$$ to values between $$[-width, width]$$ that we can use to draw some ellipses:
 ```js
-function toWidth(_peakVal) {
-  return map(abs(_peakVal), 0, 1, 0, width);
-}
+let amp;
 
-waveDiameters = song.getPeaks().map(toWidth);
+function setup() {
+  amp = new p5.Amplitude();
+  song.connect(amp);
+}
 ```
 
-Since `song.getPeaks()` returns an array of samples, we can use the JavaScript array special function [`map()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) to transform every sample in the array. The `toWidth()` function that we use to do the actual mapping of each array value uses the p5.js [`map()`](https://p5js.org/reference/#/p5/map) function internally. They are both named `map()`, they both transform numbers from one range of values into another, but they are different functions.
+An `Amplitude` measures the energy of whatever audio is fed into it, smoothed over a short window of time. Each frame in `draw()` we call [`getLevel()`](https://p5js.org/reference/#/p5.Amplitude/getLevel) and it hands back a number between $$[0, 1]$$ — roughly how loud the song is playing right now, which is to say the same thing our ears are hearing.
 
-Once we have that array of ellipse diameters, we just have to know which one to draw at each frame. That's this code here in `draw()`:
 ```js
-let tPos = song.currentTime() / song.duration();
-let dIndexDelay = floor(tPos * waveDiameters.length + DELAY);
-let dIndex = constrain(dIndexDelay, 0, waveDiameters.length - 1);
-let diam = waveDiameters[dIndex];
+let level = amp.getLevel();
+let diam = map(level, 0, 1, 0, width);
 ellipse(width / 2, height / 2, diam, diam);
 ```
 
-The `tPos` variable uses the song's [`currentTime()`](https://p5js.org/reference/#/p5.SoundFile/currentTime) and [`duration()`](https://p5js.org/reference/#/p5.SoundFile/duration) functions to determine how far we are along the song that is playing. Its value will always be between $$[0, 1]$$, and represents the percentage of the track that has been played.
+The [`map()`](https://p5js.org/reference/#/p5/map) function takes the level in the range of $$[0, 1]$$ and turns it into a diameter in pixels, so the ellipse grows and shrinks with the music.
 
-The `dIndexDelay` variable turns the `tPos` value into an index value by multiplying the percentage by the length of the diameter array. `DELAY` is a constant that we added to account for delays between the screen and the computer's speakers. We can play with that variable in the beginning of the file to shift which index we use at a given frame to account for delays when using bluetooth headphones or speakers.
+The raw level is read from the audio graph in real time, so it's already synchronized with what we hear. The level is just whatever is playing at this moment.
 
-This value then goes through `floor()` and `constrain()` in order to guarantee that we are always using a whole-number integer (no decimal) that is within the array's bounds.
+The level can be a bit jumpy from frame to frame. If we want it to swell with the song rather than twitch, we can smooth each frame:
 
-After that we use it to index into our arrays of diameters and draw an ellipse whose size is proportional to the volume of the current sample being played:
-
-{% include p5-editor.html id="DnPLOOgea" %}
-
-Try it out on both tracks, and remember to adjust the `DELAY` value to get better synchronization if using bluetooth speakers/earbuds or if the browser is overloaded.
+```js
+function draw() {
+  // higher value is smoother
+  let smoothing = .85;
+  analysis.smooth(smoothing);
+  amplitude = analysis.getLevel();
+  let diam = map(amplitude, 0, 1, 0, width);
+  ellipse(width / 2, height / 2, diam, diam);
+}
+```
