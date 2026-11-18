@@ -23,23 +23,28 @@ In this case we have an array of objects, each of which has $$3$$ key-value pair
 
 The [`loadJSON()`](https://p5js.org/reference/#/p5/loadJSON) function takes the location of a JSON file (stored locally or online), and returns a JavaScript object with the data from the file. Since the file could be large, or be coming from somewhere else on the internet, it could take a long time to download and cause our sketch to freeze and become unresponsive.
 
-One way to avoid this situation is to define a special functions (like `setup()` and `draw()`) that p5.js will use to fetch and load any data before it starts running any other part of our code.
+The clean way to handle this is to make `setup()` asynchronous. You will need to declare `setup()` as an `async` function and put an `await` in front of the load call, which makes the sketch hold on that line until the file has fully downloaded. Refer back to the [`async/await`](https://idmp5.github.io/coding/promise-await/) page for more details.
+ 
 
-If we look at the documentation for the [`preload()`](https://p5js.org/reference/#/p5/preload) function, it says that it's a function that is called once, immediately before `setup()`, that guarantees that any data loading happens before we start the sketch. It's also important to note that, according to the documentation, *Nothing besides load calls (`loadImage()`, `loadJSON()`, `loadFont()`, etc.) should be inside the preload function*.
-
-This is how we define our `preload()` to load a JSON file from the internet:
 ```js
 let data;
 
-function preload() {
+async function setup() {
   let url = "https://data.com/rent.json";
-  data = loadJSON(url);
+  data = await loadJSON(url);
 }
 ```
 
-The `url` variable could also specify a local file, but regardless, by the time the `setup()` function runs, our `data` variable will already have all of the information that is inside the `rent.json` file, and we can then use `for()` loops to process it however we want:
+In the example above, the `url` variable points to a web resource. This could just as easily refer to a local file. Either way, the `await` line doesn't move on until `rent.json` is fully loaded. By the time our code gets past it, `data` holds everything in the file, and we can then use `for()` loops to process it however we want:
 
-{% include p5-editor.html id="HxGSOzMFS" %}
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/9RKk8DBlx"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/9RKk8DBlx">
+    open example in new window
+  </a>
+</div>
 
 Some things to note about the above sketch:
 
@@ -86,13 +91,14 @@ It's good to know about both JSON and CSV because sometimes the data we want to 
 
 Luckily, p5.js also has functions to help us load, process and use tabular data in CSV files. The [`loadTable()`](https://p5js.org/reference/#/p5/loadTable) function is very similar to `loadJSON()`, because it downloads the file, reads it, and organizes the data in a way that is easier to access in the rest of our sketch.
 
-Just like `loadJSON()`, `loadTable()` should also be placed inside our `preload()` function.
+`loadTable()` works the same way as `loadJSON()`, using the `async`/`await` pattern.
+
 ```js
 let data;
 
-function preload() {
+async function preload() {
   let url = "https://data.com/rent.json";
-  data = loadTable(url, "csv", "header");
+  data = await loadTable(url, ",", "header");
 }
 ```
 
@@ -102,6 +108,13 @@ Instead of using `data.length` to know how many data points are in our dataset, 
 
 Let's take a look at a full example that does the same thing as the JSON example above:
 
-{% include p5-editor.html id="DUn4Pd1-a" %}
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/IU0oG75Sv"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/IU0oG75Sv">
+    open example in new window
+  </a>
+</div>
 
 Just like in the JSON example, we first calculate the minimum and maximum values in the `price` and `points` fields, so we can later scale the values in those fields and use the whole canvas when drawing our visualization.
