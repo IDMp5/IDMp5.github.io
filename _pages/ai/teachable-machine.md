@@ -9,17 +9,24 @@ Let's set up a sketch to do classification on a video stream.
 We'll start by modifying our hand detection sketch to work with the camera. We'll have to add a capture stream, and instead of calling `detect()` just once on a static image, we'll have to keep calling `detect()` every time we're done detecting. So our detection callback function will look like this now:
 
 ```js
-function doneDetecting(results) {
-  mResults = results;
-  model.detect(mCamera, doneDetecting);
+function gotHands(results) {
+  // save the output to the hands variable
+  hands = results;
 }
 ```
 
-Since we're drawing the video stream at every frame of `draw()`, and we might be drawing faster than detecting, we can't rely on drawing the landmarks inside the callback function anymore. What we can do is copy the results of the detection to a global variable to make sure they are available in our `draw()` function. That's what `mResults = results;` is doing.
+Since we're drawing the video stream at every frame of `draw()`, and we might be drawing faster than detecting, we can't rely on drawing the landmarks inside the callback function anymore. What we can do is copy the results of the detection to a global variable to make sure they are available in our `draw()` function. That's what `hands = results;` is doing.
 
-The rest of the sketch should look very familiar, we run `detect()`, make the results available globally, and run `detect()` again. Then, in `draw()`, we iterate through the latest results and draw landmark points for detected hands:
+The rest of the sketch should look very familiar, the `gotHands()` function is called when a hand is detected and the results are made available globally. Then, in `draw()`, we iterate through the latest results and draw landmark points for detected hands:
 
-{% include p5-editor.html id="xQrvjIfCT" %}
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/8fZOrziFw"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/8fZOrziFw">
+    open example in new window
+  </a>
+</div>
 
 This works and we could use specific landmark locations to detect basic gestures like pinches or taps.
 
@@ -31,12 +38,12 @@ Since the `ml5` library wraps up a bunch of different models into consistent int
 
 The new model is instantiated like this:
 ```js
-model = ml5.imageClassifier("MobileNet");
+classifier = await ml5.imageClassifier("MobileNet");
 ```
 
 And used like this:
 ```js
-model.classify(mCamera, doneDetecting);
+classifier.classifyStart(video, gotResult);
 ```
 
 The results are not lists of hands or faces and their landmark objects, but lists of detected objects and how confident the model is about its classification of the image. For example:
@@ -60,9 +67,16 @@ The results are not lists of hands or faces and their landmark objects, but list
 
 By default, the model only outputs the top-3 classes, but this can be adjusted with the `{topk: K}` parameter to the model constructor, where `K` is an integer that specifies how many classes to report.
 
-{% include p5-editor.html id="C-ZVXe2Xm" %}
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/dwKZEx16V"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/dwKZEx16V">
+    open example in new window
+  </a>
+</div>
 
-Like previously mentioned, the `ml5` documentation doesn't really specify which version of `MobileNetV2` was used, nor does it specify which classes this model detects.
+The `ml5` documentation mentions version 2 of `MobileNetV2` is used by default. It's possoble to find the classes this model detects, but thre are over 1000 of them.
 
 The `wig, mask, neck tie` result was for a picture of a human face 🤔.
 
@@ -143,14 +157,21 @@ If we start with the plain image classifier example from above, all we have to d
 
 We do this with:
 ```js
-model = ml5.imageClassifier(modelUrl + "/model.json");
+    classifier = await ml5.imageClassifier(imageModelURL);
 ```
 
-Where `modelUrl` is the url we got from Teachable Machine above.
+Where `imageModelURL` is the url we got from Teachable Machine above.
 
 And that's it ! Done ! We now have a custom, finetuned, image classification model.
 
-{% include p5-editor.html id="3plC1NlxY" %}
+<div class="editor-block-wrapper">
+  <div class="p5-editor-wrapper editor-wrapper">
+    <iframe class="editor" src="https://editor.p5js.org/shfitz/sketches/0sVouKO7S"></iframe>
+  </div>
+  <a class="editor-link" href="https://editor.p5js.org/shfitz/sketches/0sVouKO7S">
+    open example in new window
+  </a>
+</div>
 
 We can change the output a little bit, adjust it to make something visual or auditory happen based on the letters detected, but the majority of the code for setting up the camera, the model and the detection, stays the same.
 
